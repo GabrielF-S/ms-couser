@@ -14,7 +14,7 @@ import br.com.gabriel.hr_worker.repositories.WorkerRepositorie;
 
 
 @RestController
-@RequestMapping("worker")
+@RequestMapping("workers")
 public class WorkerResouercer {
 	@Autowired
 	WorkerRepositorie workerRepositorie;
