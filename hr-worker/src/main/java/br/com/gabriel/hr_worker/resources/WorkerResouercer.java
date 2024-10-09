@@ -5,6 +5,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +20,10 @@ import br.com.gabriel.hr_worker.repositories.WorkerRepositorie;
 @RestController
 @RequestMapping("workers")
 public class WorkerResouercer {
+	
+	@Value("${test.config}")
+	private String testConfig;
+	
 	@Autowired
 	private Environment env;
 	
@@ -49,7 +54,13 @@ public class WorkerResouercer {
 		
 		Worker worker = workerRepositorie.findById(id).get();
 		return ResponseEntity.ok(worker);
-		
+	
+	}
+	
+	@GetMapping(value = "/configs")
+	public ResponseEntity<Void> getConfigs() {
+		log.info("CONFIG = " + testConfig);
+		return ResponseEntity.noContent().build();
 	}
 
 }
