@@ -21,43 +21,32 @@ import br.com.gabriel.hr_worker.repositories.WorkerRepositorie;
 @RestController
 @RequestMapping("workers")
 public class WorkerResouercer {
-	
+
 	@Value("${test.config}")
 	private String testConfig;
-	
+
 	@Autowired
 	private Environment env;
-	
+
 	@Autowired
 	private static Logger log = LoggerFactory.getLogger(Worker.class);
-	
+
 	@Autowired
 	WorkerRepositorie workerRepositorie;
-	
+
 	@GetMapping
 	public ResponseEntity<List<Worker>> findAll() {
 		List<Worker> lista = workerRepositorie.findAll();
 		return ResponseEntity.ok(lista);
 	}
-	
+
 	@GetMapping("/{id}")
-	public ResponseEntity<Worker> findById(@PathVariable Long id){
-		
-//		try {
-//			Thread.sleep(5000);
-//		} catch (InterruptedException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-		
-		log.info("Port = "+ env.getProperty("local.server.port"));
-	
-		
+	public ResponseEntity<Worker> findById(@PathVariable Long id) {
+		log.info("Port = " + env.getProperty("local.server.port"));
 		Worker worker = workerRepositorie.findById(id).get();
 		return ResponseEntity.ok(worker);
-	
 	}
-	
+
 	@GetMapping(value = "/configs")
 	public ResponseEntity<Void> getConfigs() {
 		log.info("CONFIG = " + testConfig);
