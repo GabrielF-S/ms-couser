@@ -42,6 +42,7 @@ public class UserService  implements UserDetailsService{
 		
 		}
 		log.info("Email "+username+" Localizado");
+
 		return user;
 				
 	}
