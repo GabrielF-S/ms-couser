@@ -2,6 +2,8 @@ package br.com.gabriel.hr_oauth.configs;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -13,9 +15,16 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
+@RefreshScope
 @EnableAuthorizationServer
 @Configuration
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
+	@Value("${oauth.client.name}")
+	private String client;
+	
+	@Value("${oauth.client.secret}")
+	private String secret;
+	
 	
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
@@ -38,8 +47,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	@Override
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
 		clients.inMemory()
-		.withClient("myappname123")
-		.secret(passwordEncoder.encode("myappsecret123"))
+		.withClient(client)
+		.secret(passwordEncoder.encode(secret))
 		.scopes("read", "write")
 		.authorizedGrantTypes("password")
 		.accessTokenValiditySeconds(86400);
